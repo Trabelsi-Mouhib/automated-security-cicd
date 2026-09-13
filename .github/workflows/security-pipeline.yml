@@ -3,6 +3,7 @@ name: DevSecOps Compliance Pipeline
 on: [push, pull_request]
 
 jobs:
+  # JOB 1: Secret Scanning
   secret-scanning:
     name: Secret Scanning (TruffleHog)
     runs-on: ubuntu-latest
@@ -15,4 +16,30 @@ jobs:
       - name: TruffleHog OSS Secret Scan
         uses: trufflesecurity/trufflehog@main
         with:
-          extra_args: --debug --results=verified,unverified
+          extra_args: --debug
+
+  # JOB 2: Static Application Security Testing (SAST)
+  sast-scanning:
+    name: Static Code Analysis (Semgrep)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep SAST
+        uses: semgrep/semgrep-action@v1
+        with:
+          config: p/ci
+
+  # JOB 3: Software Composition Analysis (SCA)
+  sca-scanning:
+    name: Dependency Scanning (Snyk)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/python@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
