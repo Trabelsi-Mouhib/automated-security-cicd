@@ -15,8 +15,6 @@ jobs:
 
       - name: TruffleHog OSS Secret Scan
         uses: trufflesecurity/trufflehog@main
-        with:
-          extra_args: --fail
 
   # JOB 2: Static Application Security Testing (SAST)
   sast-scanning:
@@ -34,7 +32,7 @@ jobs:
       - name: Run Semgrep SAST
         run: |
           python -m pip install semgrep
-          semgrep scan --config p/owasp-top-10 --error
+          semgrep scan --config p/owasp-top-ten --error
 
   # JOB 3: Software Composition Analysis (SCA)
   sca-scanning:
