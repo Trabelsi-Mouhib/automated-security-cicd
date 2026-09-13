@@ -39,7 +39,7 @@ jobs:
       - name: Run Semgrep SAST
         run: |
           python -m pip install semgrep
-          semgrep scan --config p/owasp-top-ten --exclude='.github' --error
+          semgrep scan --config p/python --config p/owasp-top-ten --exclude='.github' --error
 
   # JOB 3: Software Composition Analysis (SCA)
   sca-scanning:
