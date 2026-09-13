@@ -1,6 +1,14 @@
 name: DevSecOps Compliance Pipeline
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+# Restrict default GITHUB_TOKEN permissions to read-only
+permissions:
+  contents: read
 
 jobs:
   # JOB 1: Secret Scanning
@@ -14,7 +22,8 @@ jobs:
           fetch-depth: 0
 
       - name: TruffleHog OSS Secret Scan
-        uses: trufflesecurity/trufflehog@main
+        # Pinned to fixed release version to avoid supply-chain vulnerability
+        uses: trufflesecurity/trufflehog@v3.88.0
 
   # JOB 2: Static Application Security Testing (SAST)
   sast-scanning:
@@ -43,6 +52,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/python@master
+        # Pinned to fixed release tag instead of mutable '@master'
+        uses: snyk/actions/python@0.4.0
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
