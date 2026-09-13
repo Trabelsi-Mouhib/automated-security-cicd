@@ -15,4 +15,4 @@ jobs:
       - name: TruffleHog OSS Secret Scan
         uses: trufflesecurity/trufflehog@main
         with:
-          extra_args: --debug
+          extra_args: --debug --results=verified,unverified
