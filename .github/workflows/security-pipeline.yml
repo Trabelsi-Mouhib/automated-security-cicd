@@ -3,7 +3,6 @@ name: DevSecOps Compliance Pipeline
 on: [push, pull_request]
 
 jobs:
-  # JOB 1: Secret Scanning
   secret-scanning:
     name: Secret Scanning (TruffleHog)
     runs-on: ubuntu-latest
