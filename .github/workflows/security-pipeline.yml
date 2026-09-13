@@ -29,7 +29,8 @@ jobs:
       - name: Run Semgrep SAST
         uses: semgrep/semgrep-action@v1
         with:
-          config: p/ci
+          config: p/owasp-top-10
+          auditOn: "" # Enforces build failures on findings
 
   # JOB 3: Software Composition Analysis (SCA)
   sca-scanning:
