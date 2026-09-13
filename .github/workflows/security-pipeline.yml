@@ -1,0 +1,20 @@
+name: DevSecOps Compliance Pipeline
+
+# Trigger this workflow on every push to any branch
+on: [push, pull_request]
+
+jobs:
+  secret-scanning:
+    name: Secret Scanning (TruffleHog)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # TruffleHog needs full git history to scan properly
+
+      - name: TruffleHog OSS Secret Scan
+        uses: trufflesecurity/trufflehog-main@main
+        with:
+          extra_args: --debug
