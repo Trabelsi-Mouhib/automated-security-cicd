@@ -1,14 +1,8 @@
 import sqlite3
 
-# VULNERABILITY 1: Hardcoded Private Key (Secret Leak)
-# GitHub Push Protection allows dummy RSA key headers, but TruffleHog flags private key structures.
-FAKE_RSA_PRIVATE_KEY = """-----BEGIN RSA PRIVATE KEY-----
-MIIEowIBAAKCAQEA0Z1fX23456789abcdef0123456789abcdef0123456789abcd
-ef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcd
-ef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcd
-ef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcd
-IDAQABAoIBAQC0Z1fX23456789abcdef0123456789abcdef0123456789abcdef
------END RSA PRIVATE KEY-----"""
+# VULNERABILITY 1: Hardcoded AWS Credential Pattern (Secret Leak)
+AWS_ACCESS_KEY_ID = "AKIAIOSFODNN7EXAMPLE"
+AWS_SECRET_ACCESS_KEY = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
 
 def get_user_data(username):
     # VULNERABILITY 2: SQL Injection (Insecure Code Logic)
