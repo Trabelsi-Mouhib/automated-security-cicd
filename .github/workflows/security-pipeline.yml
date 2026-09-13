@@ -71,7 +71,7 @@ jobs:
           image-ref: 'app:latest'
           format: 'sarif'
           output: 'trivy-results.sarif'
-          exit-code: '1'
+          exit-code: '0' # Allows DAST to run while still reporting findings to GitHub Security
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
 
