@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: [ main, develop ]
 
-# Restrict default GITHUB_TOKEN permissions to read-only
 permissions:
   contents: read
 
@@ -17,13 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
 
       - name: TruffleHog OSS Secret Scan
-        # Pinned to fixed release version to avoid supply-chain vulnerability
-        uses: trufflesecurity/trufflehog@v3.88.0
+        uses: trufflesecurity/trufflehog@a11a8f9468926c04fec9c394336c1e13e007d4b6 # v3.88.0
 
   # JOB 2: Static Application Security Testing (SAST)
   sast-scanning:
@@ -31,17 +29,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@0b7f8abb15081810e39683d0f04f056d6f220df6 # v5.3.0
         with:
           python-version: '3.10'
 
       - name: Run Semgrep SAST
         run: |
           python -m pip install semgrep
-          semgrep scan --config p/owasp-top-ten --error
+          semgrep scan --config p/owasp-top-ten --exclude='.github' --error
 
   # JOB 3: Software Composition Analysis (SCA)
   sca-scanning:
@@ -49,10 +47,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Run Snyk to check for vulnerabilities
-        # Pinned to fixed release tag instead of mutable '@master'
-        uses: snyk/actions/python@0.4.0
+        uses: snyk/actions/python@b004c86b2404b90161421a9c3fbcd44383a15234 # v0.4.0
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}

@@ -1,7 +1,7 @@
 import sqlite3
 
 # VULNERABILITY 1: Hardcoded AWS Credential Pattern (Secret Leak)
-AWS_ACCESS_KEY_ID = "AKIAIOSFODNN7EXAMPLE"
+AWS_ACCESS_KEY_ID = "AKIAIOSFODNN78912345"
 AWS_SECRET_ACCESS_KEY = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
 
 def get_user_data(username):
