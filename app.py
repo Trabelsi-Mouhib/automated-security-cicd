@@ -1,15 +1,24 @@
-import os
-from flask import Flask, request
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-@app.route("/ping")
-def ping():
-    host = request.args.get("host")
-    # VULNÉRABILITÉ : Injection de commande système (OS Command Injection)
-    # Un attaquant pourrait passer : 127.0.0.1; cat /etc/passwd
-    output = os.popen(f"ping -c 1 {host}").read()
-    return output
+# Base de données fictive
+ITEMS = [
+    {"id": 1, "name": "Serveur Web", "status": "actif"},
+    {"id": 2, "name": "Base de données", "status": "actif"},
+]
+
+@app.route("/", methods=["GET"])
+def home():
+    return jsonify({"status": "ok", "message": "API DevSecOps opérationnelle"}), 200
+
+@app.route("/api/items", methods=["GET"])
+def get_items():
+    search = request.args.get("search", "").lower()
+    if search:
+        filtered = [i for i in ITEMS if search in i["name"].lower()]
+        return jsonify(filtered), 200
+    return jsonify(ITEMS), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
